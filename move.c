@@ -12,12 +12,32 @@
 
 #include <curses.h>
 #include <ctype.h>
+#include <string.h>
 #include "rogue.h"
 
 /*
- * used to hold the new hero position
+ * Remember the direction at each square during one continuous run.
+ * A passage loop can otherwise keep passgo running indefinitely.
+ * One byte per map square covers the eight possible directions.
  */
+static unsigned char run_visited[NUMLINES][NUMCOLS];
 
+static unsigned char
+run_direction_bit(int ch)
+{
+    switch (ch)
+    {
+        case 'h': return 1U << 0;
+        case 'j': return 1U << 1;
+        case 'k': return 1U << 2;
+        case 'l': return 1U << 3;
+        case 'y': return 1U << 4;
+        case 'u': return 1U << 5;
+        case 'b': return 1U << 6;
+        case 'n': return 1U << 7;
+    }
+    return 0;
+}
 
 /*
  * do_run:
@@ -27,6 +47,8 @@
 void
 do_run(int ch)
 {
+    /* A fresh run must not inherit the previous run's visited squares. */
+    memset(run_visited, 0, sizeof run_visited);
     running = TRUE;
     after = FALSE;
     runch = ch;
@@ -50,6 +72,23 @@ do_move(int dy, int dx)
 	no_move--;
 	msg(JSTR("とらばさみのわなでまだ身動きがとれない。", "you are still stuck in the bear trap"));
 	return;
+    }
+    if (running)
+    {
+        unsigned char bit = run_direction_bit(runch);
+
+        /* Stop before repeating a square and heading: no extra game turn. */
+        if (bit != 0 && hero.y > 0 && hero.y < NUMLINES - 1
+            && hero.x >= 0 && hero.x < NUMCOLS)
+        {
+            if (run_visited[hero.y][hero.x] & bit)
+            {
+                running = FALSE;
+                after = FALSE;
+                return;
+            }
+            run_visited[hero.y][hero.x] |= bit;
+        }
     }
     /*
      * Do a confused move (maybe)

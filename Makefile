@@ -157,7 +157,7 @@ README_FILES = README_mac_linux_ja.md README_mac_linux_en.md \
 DOCS     = $(README_FILES) rogue_ja.txt rogue_en.txt \
            rogue_ja.html rogue_en.html $(MANPAGES)
 AFILES   = Makefile Makefile.win windows/rogue_windows.h windows/rogue_windows_console.h configure config.h \
-           rogue.6.en.in rogue.6.ja.in $(README_FILES) \
+           rogue.6.en.in rogue.6.ja.in README.md $(README_FILES) \
            rogue_ja.txt rogue_en.txt rogue_ja.html rogue_en.html \
            windows/rogue.ico windows/rogue-icon.rc windows/windows-saved-games.ps1
 MISC     = LICENSE.TXT
