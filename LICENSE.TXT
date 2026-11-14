@@ -1,0 +1,183 @@
+Rogue: Exploring the Dungeons of Doom
+Copyright (C) 1980-1983, 1985, 1999 Michael Toy, Ken Arnold and Glenn Wichman
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name(s) of the author(s) nor the names of other contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR(S) OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+===========================================================================
+
+Portions of this software (state.c, mdport.c) are based on the work 
+of Nicholas J. Kisseberth. Used under license:
+
+Copyright (C) 1999, 2000, 2005 Nicholas J. Kisseberth
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name(s) of the author(s) nor the names of other contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR(S) OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+===========================================================================
+
+Portions of this software (xcrypt.c) are based on the work 
+of David Burren. Used under license:
+
+FreeSec: libcrypt
+
+Copyright (C) 1994 David Burren
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name(s) of the author(s) nor the names of other contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR(S) OR CONTRIBUTORS BE LIABLE
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+
+====================================================================
+ROGUE 5.4.5 JEC: ADDITIONAL CONTRIBUTIONS AND ACKNOWLEDGMENTS
+====================================================================
+
+Rogue 5.4.5 JEC 056
+Additional Contributions, Licensing, and Acknowledgments
+=====================================================
+
+1. Original Rogue and other pre-existing code
+
+Rogue 5.4.5 JEC is a modified edition based on Rogue 5.4.5.
+Copyrights and license conditions for the original Rogue software and
+identified third-party portions are reproduced
+above in this file. The following sections supplement, and do not
+replace, those notices or conditions.
+
+2. Rogue 5.4.5p
+
+The color display functionality and optional single-type identify
+scroll feature incorporate work from Rogue 5.4.5p, revised by
+Y.Oz (Y.Oz Vox). The Rogue 5.4.5p source distribution includes the
+Rogue BSD-style license text and credits Y.Oz for that revision.
+This notice does not assert ownership
+of those contributions by the JEC project.
+
+3. JEC additions and modifications
+
+Copyright (c) 2026 leopardgecko
+(for original, copyrightable contributions by leopardgecko only).
+
+JEC additions include Japanese localization, Japanese/English language
+switching, Unicode and emoji input/display work, modern operating-system
+support, user-interface and configuration improvements, and the Windows
+executable icon and related resources.
+
+To the extent that leopardgecko owns copyright in these original
+contributions, they are offered under the same three-clause BSD license
+terms reproduced above in this file. This does not alter the applicable
+rights or licensing of the original Rogue, Rogue 5.4.5p, or third-party
+code or assets. No endorsement by their authors is implied.
+
+4. External dependencies
+
+External components, including PDCursesMod when used for Windows builds,
+remain subject to their respective license terms. These additional notes do not supersede any notices or conditions
+associated with them.
+
+---------------------------------------------------------------------
+
+Rogue 5.4.5 JEC 056
+追加・変更部分のライセンスと謝辞
+==============================
+
+1. オリジナルRogueおよび既存のコード
+
+Rogue 5.4.5 JECは、Rogue 5.4.5を基にした改訂版です。
+オリジナルRogueと、元から含まれる第三者のコードに関する著作権表示、
+ライセンス条件は本ファイルの前半に収録しています。以下の追記はそれらを
+補足するもので、元の表示や条件を変更するものではありません。
+
+2. Rogue 5.4.5pについて
+
+カラー表示機能と、識別の巻き物を1種類にまとめるオプション機能には、
+Y.Oz（Y.Oz Vox）さんが改訂したRogue 5.4.5pの成果を取り入れています。
+5.4.5pの配布ソースにはRogueのBSD系ライセンスが収録され、改訂者として
+Y.Ozさんの名前が記載されています。これらをJEC側の著作物と
+主張するものではありません。
+
+3. JEC版での追加・変更部分
+
+Copyright (c) 2026 leopardgecko
+（leopardgeckoが独自に制作し、著作権が成立する部分に限ります。）
+
+日本語化、日英切り替え、Unicode・絵文字対応、現代のOSへの対応、
+表示・操作・設定の改善、Windows版のアイコンと関連リソースなどを
+含みます。
+
+leopardgeckoが権利を有する独自の追加・変更部分については、本ファイルの
+前半に収録されたBSD 3-Clauseと同じ条件で提供します。オリジナルRogue、
+Rogue 5.4.5p、その他の第三者のコードや素材に適用される権利・条件を
+変更するものではありません。また、各原作者による推奨・公認を意味
+するものではありません。
+
+4. 外部ライブラリ
+
+Windowsビルドで利用するPDCursesModなどの外部コンポーネントには、
+それぞれ固有のライセンス条件が適用されます。この追記はそれらの表示や
+条件に優先するものではありません。

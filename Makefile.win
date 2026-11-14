@@ -1,0 +1,145 @@
+# MSYS2 UCRT64 / MinGW-w64 - Windows native
+# From the MSYS2 UCRT64 shell (the default Makefile includes this file):
+#   pacman -S --needed make mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils mingw-w64-ucrt-x86_64-pdcurses
+#   make clean && make                # VT backend, auto: Windows UI language
+#   make original                     # VT backend, original-style options
+#   make PROGRAM=jrogue DEFAULT_LANGUAGE=1
+#   make wizard                     # Build with the MASTER wizard features
+#   make FILEDIR=saved-games        # Use the actual Saved Games known folder
+# Direct use of 'mingw32-make -f Makefile.win' remains supported for the
+# standard build; FILEDIR=saved-games requires the MSYS2 UCRT64 shell.
+
+CC = gcc
+MINGW_PREFIX ?= /ucrt64
+# Windows always uses the PDCursesMod VT backend.
+# Reject a legacy override instead of silently producing a VT executable.
+ifneq ($(origin PDC_BACKEND),undefined)
+$(error PDC_BACKEND is obsolete; Windows builds always use the VT backend)
+endif
+# Windows icon resource, shared by the regular and original-settings builds.
+WINDRES ?= windres
+ICON_OBJ := windows/rogue-icon.win.o
+PROG ?=
+# Same executable naming interface as the macOS/Linux Makefile.
+# PROGRAM takes precedence if both PROGRAM and PROG are supplied.
+PROGRAM ?= $(if $(PROG),$(PROG),rogue)
+DEFAULT_LANGUAGE ?= 0
+FILEDIR ?=
+
+# The optional 'saved-games' value is Windows-only shorthand for the
+# current Windows user's *actual* Saved Games known-folder location, including
+# locations redirected by Windows.  The build-time path is embedded in the
+# executable; use the default (unset FILEDIR) for redistributable binaries.
+# Query only for builds/preparation, not for housekeeping or source packaging.
+ifeq ($(strip $(FILEDIR)),saved-games)
+ifneq ($(filter-out clean dist.src,$(if $(strip $(MAKECMDGOALS)),$(MAKECMDGOALS),all)),)
+SAVED_GAMES_FILEDIR := $(shell powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./windows/windows-saved-games.ps1)
+ifeq ($(strip $(SAVED_GAMES_FILEDIR)),)
+$(error Cannot resolve the Windows Saved Games known folder; check PowerShell and windows-saved-games.ps1)
+endif
+RESOLVED_FILEDIR := $(SAVED_GAMES_FILEDIR)
+AUTO_PREPARE_FILEDIR := 1
+endif
+else
+RESOLVED_FILEDIR := $(FILEDIR)
+endif
+
+ifneq ($(strip $(RESOLVED_FILEDIR)),)
+SAVEFILE := $(RESOLVED_FILEDIR)/$(PROGRAM).save
+SCOREFILE := $(RESOLVED_FILEDIR)/$(PROGRAM).scr
+else
+SAVEFILE := $(PROGRAM).save
+SCOREFILE := $(PROGRAM).scr
+endif
+
+CFILES := jec/color.c jec/unicode_text.c vers.c extern.c armor.c chase.c command.c daemon.c daemons.c fight.c init.c io.c list.c jec/language.c mach_dep.c main.c mdport.c windows/rogue_windows.c windows/rogue_windows_console.c misc.c monsters.c move.c new_level.c options.c pack.c passages.c potions.c rings.c rip.c rooms.c save.c scrolls.c state.c sticks.c things.c weapons.c wizard.c xcrypt.c
+OBJS := $(CFILES:.c=.win.o)
+CFLAGS ?= -O2 -g -Wall -Wextra
+DEFAULT_OPTION_CPPFLAGS ?= -DMODERN_ROGUE_OPTIONS
+# Keep required Windows/PDCursesMod flags even with make CPPFLAGS="...".
+# Match the macOS/Linux handling of CPPFLAGS and EXTRA_CPPFLAGS.
+USER_CPPFLAGS := $(CPPFLAGS)
+# Quote the entire -D argument for the MSYS2 shell so paths with spaces,
+# apostrophes, '$', and other shell metacharacters stay literal.  The inner
+# double quotes are passed to the compiler to form C string literals.
+shell_quote = '$(subst ','"'"',$(1))'
+CPP_SAVEFILE := $(call shell_quote,"$(SAVEFILE)")
+CPP_SCOREFILE := $(call shell_quote,"$(SCOREFILE)")
+# MSYS2 PDCursesMod installs curses.h in <prefix>/include/pdcurses.
+override CPPFLAGS := -DHAVE_CONFIG_H $(DEFAULT_OPTION_CPPFLAGS) \
+                     -DPDC_WIDE=1 -DPDC_FORCE_UTF8=1 \
+                     -I$(MINGW_PREFIX)/include/pdcurses -I. \
+                     -DDEFAULT_SAVEFILE=$(CPP_SAVEFILE) \
+                     -DSCOREFILE=$(CPP_SCOREFILE) \
+                     $(if $(strip $(DEFAULT_LANGUAGE)),-DDEFAULT_LANGUAGE=$(DEFAULT_LANGUAGE)) \
+                     $(USER_CPPFLAGS) $(EXTRA_CPPFLAGS)
+# Match the Unix build: make MASTER=1, make master, or make wizard.
+ifeq ($(MASTER),1)
+override CPPFLAGS += -DMASTER
+endif
+LDFLAGS ?=
+# Link only the VT variant of PDCursesMod.
+LDLIBS := -lpdcurses_vt -lwinmm -luser32 -lgdi32 -lcomdlg32 -lshell32 -lshlwapi -ladvapi32
+
+.PHONY: all clean japanese english original master wizard prepare-filedir dist.src
+all: $(PROGRAM).exe
+
+# Do not create anything during 'make clean', or in the default build.
+# For FILEDIR=saved-games, prepare the directory as an order-only build
+# prerequisite. An explicit 'make prepare-filedir FILEDIR=path' also works.
+ifeq ($(AUTO_PREPARE_FILEDIR),1)
+$(PROGRAM).exe: | prepare-filedir
+endif
+prepare-filedir:
+ifeq ($(strip $(RESOLVED_FILEDIR)),)
+	@echo "FILEDIR is unset; data files use the current directory."
+else
+ifeq ($(AUTO_PREPARE_FILEDIR),1)
+	@powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./windows/windows-saved-games.ps1 -Create
+else
+	@mkdir -p "$$(cygpath -u "$(RESOLVED_FILEDIR)")"
+endif
+endif
+# Embed the same multi-resolution icon in both rogue.exe and
+# rogue_original.exe.  This is a Windows resource, not a Rogue C source file.
+$(ICON_OBJ): windows/rogue-icon.rc windows/rogue.ico
+	$(WINDRES) -I windows -i windows/rogue-icon.rc -O coff -o $@
+
+%.win.o: %.c config.h rogue.h extern.h jec/color.h jec/language.h windows/rogue_windows.h windows/rogue_windows_console.h jec/unicode_text.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+# These files include score.h; updating it must rebuild their objects.
+save.win.o rip.win.o: score.h
+
+$(PROGRAM).exe: $(OBJS) $(ICON_OBJ)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(ICON_OBJ) $(LDLIBS)
+# Remove only the current build's outputs; preserve save and score files.
+clean:
+	rm -f $(OBJS) $(ICON_OBJ) $(PROGRAM).exe
+japanese:
+	$(MAKE) -f Makefile.win clean
+	$(MAKE) -f Makefile.win DEFAULT_LANGUAGE=1 PROG=$(PROGRAM)
+english:
+	$(MAKE) -f Makefile.win clean
+	$(MAKE) -f Makefile.win DEFAULT_LANGUAGE=2 PROG=$(PROGRAM)
+
+# Original option defaults and English unless explicitly overridden.
+# Only option defaults and initial language differ from the regular build.
+# Clean when changing build-time defaults.
+original:
+	$(MAKE) -f Makefile.win clean
+	$(MAKE) -f Makefile.win all DEFAULT_OPTION_CPPFLAGS= DEFAULT_LANGUAGE=$(if $(filter command line,$(origin DEFAULT_LANGUAGE)),$(DEFAULT_LANGUAGE),2)
+
+# Like the Unix make targets, force recompilation when enabling wizard mode.
+master:
+	$(MAKE) -f Makefile.win clean
+	$(MAKE) -f Makefile.win all MASTER=1
+
+wizard: master
+
+# Always use the Unix Makefile's source manifest for the archive, so MSYS2
+# UCRT64 and macOS/Linux package exactly the same files.  This target does
+# not build the game or remove existing binaries, objects, or saved games.
+# MSYS2 provides the necessary sh, cp, mktemp, tar, gzip, and chmod tools.
+dist.src:
+	$(MAKE) -f Makefile ROGUE_BUILD=unix dist.src
