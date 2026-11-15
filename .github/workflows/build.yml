@@ -38,7 +38,7 @@ jobs:
           mkdir -p dist
           cp rogue dist/
           make clean
-          make PROGRAM=rogue_original original
+          make PROGRAM=rogue_original SAVEFILE=rogue.save SCOREFILE=rogue.scr original
           cp rogue_original dist/
 
       - uses: actions/upload-artifact@v6
@@ -76,7 +76,7 @@ jobs:
           mkdir -p dist
           cp rogue.exe dist/
           make clean
-          make PROGRAM=rogue_original original
+          make PROGRAM=rogue_original SAVEFILE=rogue.save SCOREFILE=rogue.scr original
           cp rogue_original.exe dist/
           objdump -p dist/rogue.exe | grep "DLL Name:" || true
 
