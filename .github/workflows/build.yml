@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
@@ -41,7 +41,7 @@ jobs:
           make PROGRAM=rogue_original original
           cp rogue_original dist/
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: rogue-${{ matrix.name }}
           path: dist/
@@ -58,7 +58,7 @@ jobs:
         shell: pwsh
         run: git config --global core.autocrlf input
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -80,7 +80,7 @@ jobs:
           cp rogue_original.exe dist/
           objdump -p dist/rogue.exe | grep "DLL Name:" || true
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: rogue-windows-x64
           path: dist/
