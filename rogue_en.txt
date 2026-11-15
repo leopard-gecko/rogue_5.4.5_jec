@@ -868,10 +868,4 @@ ____________________
    6 The Dungeon's wizard is named Wally the Wonder  Badger.
 Invocations should be accompanied by a sizable donation.
 
-
-
-
-
-
-
-
+Version-specific additions and revisions: leopardgecko
