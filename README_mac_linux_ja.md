@@ -1,14 +1,8 @@
 # Rogue 5.4.5 JEC 056 — macOS / Linux（日本語）
 
-Rogueは、1980年頃に誕生した、文字や記号で描かれる迷宮を探索するコンピューターRPGです。プレイヤーは怪物と戦い、さまざまな道具を駆使しながら、迷宮の奥に隠された「イェンダーの魔除け」を探します。
+この文書では、**macOS、Linux、Raspberry Pi OS** でのビルド、起動、インストール、セーブ・スコアの保存先について説明します。ゲームの紹介と各OS向け文書の一覧は[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)、操作方法やアイテムの説明は[「【運命の洞窟】への案内書」](https://leopard-gecko.github.io/jrogue/guide.html?version=54)をご覧ください。
 
-**Rogue 5.4は、初代Rogueから改良を重ねてきた、オリジナル版の最終バージョンです。** 初期のバージョンに比べてゲームの仕組みがより洗練されており、シンプルな画面ながら、プレイするたびに姿を変える迷宮、さまざまな道具を活用する楽しさ、緊張感のある冒険など、今遊んでも色あせない魅力を持ったゲームです。
-
-この修正版では、Rogue 5.4のゲーム内容を基本的にそのままに、日本語・英語の切り替えやカラー表示を追加し、macOS、Linux、Windowsなどの現代のOSでも楽しめるようにしています。
-
-ゲームの概要・操作方法・遊び方、アイテムなどについては、[「【運命の洞窟】への案内書」](https://leopard-gecko.github.io/jrogue/guide.html?version=54)をご覧ください。このREADMEでは、開発環境、ビルド、起動、保存先、配布ファイルなどを説明します。
-
-この説明書は **macOS / Linux / Raspberry Pi OS向け** です。ほかの説明書：[macOS / Linux・英語](README_mac_linux_en.md) ／ [Windows・日本語](README_windows_ja.md) ／ [Windows・英語](README_windows_en.md)
+English version: [README_mac_linux_en.md](README_mac_linux_en.md)
 
 ## 1. 開発環境の準備
 
@@ -62,7 +56,7 @@ make
 
 「識別の巻き物」は、持ち物の正体を調べる道具です。オリジナルのRogue 5.4では調べる道具の種類に応じて5種類ありますが、`idscrl` を有効にすると、どの種類の道具にも使える1種類にまとめられます。この設定はゲーム開始後には変更できないため、変更したい場合は起動前に `ROGUEOPTS` で `idscrl`（1種類）または `noidscrl`（5種類）を指定します。
 
-言語やその他の変更可能なオプションは、ゲーム中のオプション画面でも変更できます。詳しい説明は、冒頭の「【運命の洞窟】への案内書」をご覧ください。
+言語やその他の変更可能なオプションは、ゲーム中のオプション画面でも変更できます。詳しい説明は、「【運命の洞窟】への案内書」をご覧ください。
 
 | 目的 | コマンド |
 |---|---|
@@ -131,23 +125,11 @@ sudo make install
 | `config.mk` / `config.log` | `configure`が生成する設定・確認ログ |
 | `rogue.6.en.in` / `rogue.6.ja.in` | 日英のmanページの原稿 |
 | `*.c` / `*.h` | ソースコード |
-| `rogue_ja.txt` / `rogue_en.txt` | 日英のゲーム解説テキスト |
-| `rogue_ja.html` / `rogue_en.html` | 日英のHTML解説 |
-| `LICENSE.TXT` | 著作権・ライセンス、JEC版の追加・変更部分と謝辞 |
-| `README_mac_linux_ja.md` / `README_mac_linux_en.md` | macOS/Linux向け日英README |
-| `README_windows_ja.md` / `README_windows_en.md` | Windows向け日英README |
+
+案内書やほかのOS向けREADMEの一覧は、[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)をご覧ください。
 
 `make dist.src` でソースアーカイブを生成できます（通常は `rogue-5.4.5jec.056-src.tar.gz`）。
 
-## 7. 元のRogue 5.4.5系からの主な変更点
-
-- **現代の環境に対応：** macOS、Linux、Raspberry Pi OSでのビルド・動作に対応しました。
-- **日本語・英語：** アイテム名やメッセージ、設定画面などを日本語化し、起動時とゲーム中に言語を切り替えられます。
-- **カラー・操作：** カラー、通路の連続移動、カーソル表示などの設定を追加・整理しました。
-- **識別の巻き物：** 識別の巻き物を1種類にまとめるオプションは、Y.Oz Voxさんが公開しているRogue 5.4.5pから移植したものです。通常ビルドでは、このオプションを初期値で有効にしています。
-- **ビルドと保存：** 実行ファイル名、インストール先、セーブ・スコアの保存先を指定できます。
-- **表示・入力の改善：** UTF-8表示、メッセージや入力の扱い、画面描画と動作の安定性を改善しました。
-
-## 8. 著作権・ライセンス
+## 7. 著作権・ライセンス
 
 オリジナルRogueと既存のコードに関する著作権・ライセンス条件、JEC版での日本語化・機能追加・Windows用アイコンなどの独自の貢献、およびRogue 5.4.5pのY.Oz Voxさんへの謝辞は、すべて`LICENSE.TXT`に記載しています。

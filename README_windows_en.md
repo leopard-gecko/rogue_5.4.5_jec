@@ -1,14 +1,8 @@
 # Rogue 5.4.5 JEC 056 — Windows (English)
 
-Rogue is a computer role-playing game created around 1980, featuring dungeons drawn with letters and symbols. Players battle monsters and make use of a variety of items as they search for the Amulet of Yendor hidden deep within the dungeon.
+This document explains how to build and run Rogue 5.4.5 JEC on **Windows 10 / 11**, including environment variables and save and score file locations. For an introduction and links to all platform guides, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec). For gameplay, commands, and items, see [A Guide to the Dungeons of Doom](https://leopard-gecko.github.io/jrogue/guide.html?version=54).
 
-**Rogue 5.4 is the final version of the original Rogue line, refined through successive releases since the first Rogue.** Its gameplay mechanics are more refined than those of earlier versions. Despite its simple text-based display, its ever-changing dungeons, creative use of items, and tense adventures give it a timeless appeal that makes it enjoyable to play even today.
-
-This modified edition leaves the gameplay of Rogue 5.4 essentially unchanged while adding Japanese/English language switching, color display, and support for modern operating systems such as macOS, Linux, and Windows.
-
-For the game overview, controls, items and how to play, see the [「【運命の洞窟】への案内書」 (Dungeon Guide)](https://leopard-gecko.github.io/jrogue/guide.html?version=54). This README covers building, launching, setting Windows environment variables, file locations and distribution.
-
-This guide covers **Windows 10 / 11**. Other guides: [Windows・Japanese](README_windows_ja.md) / [macOS / Linux・English](README_mac_linux_en.md) / [macOS / Linux・Japanese](README_mac_linux_ja.md).
+日本語版：[README_windows_ja.md](README_windows_ja.md)
 
 ## 1. Requirements
 
@@ -55,7 +49,7 @@ A regular `make` uses convenient default options, while `make original` builds t
 
 An **identify scroll** reveals what an item is. Original Rogue 5.4 has five types, each for a particular category of items. Enabling `idscrl` replaces them with one type that can identify any of those categories. This option cannot be changed once a game has started; set `idscrl` (one type) or `noidscrl` (five types) in `ROGUEOPTS` before launching the game.
 
-The language and other changeable options can also be adjusted in the in-game options screen. For details, see the 「【運命の洞窟】への案内書」 (Dungeon Guide) linked above. Clean and rebuild when switching build modes.
+The language and other changeable options can also be adjusted in the in-game options screen. For details, see the dungeon guide linked above. Clean and rebuild when switching build modes.
 
 Windows builds use only the **PDCursesMod VT rendering backend**. Regular `make` and `make original` differ only in initial options and language; there is no legacy WinCon backend selection. Exact colors and emoji rendering still depend on the terminal and installed fonts.
 
@@ -79,7 +73,7 @@ These options are also available when launching from a shell such as PowerShell:
 
 Press `!` during the game to open a Windows command shell temporarily. Type `exit` to close the shell and return to Rogue. The shell is selected by `COMSPEC`, or `cmd.exe` if that environment variable is unset.
 
-In PowerShell, prefix the executable name with `.\` (for example, `.\rogue.exe -s`). For details, see the 「【運命の洞窟】への案内書」 (Dungeon Guide).
+In PowerShell, prefix the executable name with `.\` (for example, `.\rogue.exe -s`). For details, see the dungeon guide.
 
 ## 4. Setting environment variables on Windows
 
@@ -183,25 +177,11 @@ This produces `rogue-5.4.5jec.056-src.tar.gz` from the same source manifest used
 | `Makefile` / `Makefile.win` | Source builds |
 | `windows/rogue.ico` / `windows/rogue-icon.rc` | Windows icon resources |
 | `windows/windows-saved-games.ps1` | Helper for the Windows Saved Games path |
-| `rogue_ja.html` / `rogue_en.html` | Japanese and English HTML guides |
-| `rogue_ja.txt` / `rogue_en.txt` | Japanese and English plain-text guides |
-| `README_mac_linux_ja.md` / `README_mac_linux_en.md` | macOS/Linux READMEs (Japanese/English) |
-| `README_windows_ja.md` / `README_windows_en.md` | Windows READMEs (Japanese/English) |
-| `LICENSE.TXT` | Copyright, licenses, and JEC contributions |
 
-When copying a built EXE to another computer, check whether it requires runtime DLLs. For game controls and strategy, see the Dungeon Guide linked at the top.
+For the dungeon guides and other platform READMEs, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec).
 
-## 7. Main changes from the original Rogue 5.4.5 line
+When copying a built EXE to another computer, check whether it requires runtime DLLs. For game controls and strategy, see the dungeon guide linked above.
 
-- **Native Windows:** Build with MSYS2 UCRT64 and PDCursesMod.
-- **Japanese and English:** Select the language at startup or during play.
-- **Unicode input:** Improved handling of Japanese text and emoji in player and fruit names.
-- **Color and icon:** Color display and a Windows executable icon.
-- **Terminal behavior:** The basic display is 80×24 and direct launches attempt to resize the terminal.
-- **Regular/original variants:** Choose between modern and original-style build defaults.
-- **Identify scrolls:** The option to combine identify scrolls into a single type was ported from Rogue 5.4.5p published by Y.Oz Vox. It is enabled by default in regular builds.
-- **Files and stability:** Configurable data locations and improvements to drawing, items and scores.
-
-## 8. Copyright and licenses
+## 7. Copyright and licenses
 
 See `LICENSE.TXT` for the original Rogue and pre-existing code licenses, JEC additions (including localization, features, and the Windows icon), and acknowledgment of Y.Oz Vox's Rogue 5.4.5p work.
