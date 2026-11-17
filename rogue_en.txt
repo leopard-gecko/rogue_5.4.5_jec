@@ -812,9 +812,9 @@ cursor [nocursor]
 
 language [auto]
      Select the display language. In the options screen,
-     press J for Japanese or E for English. ROGUEOPTS accepts
-     language=ja, language=en, or language=auto; auto uses
-     the OS language setting.
+     press J for Japanese or E for English. ROGUEOPTS
+     accepts language=ja, language=en, or language=auto;
+     auto uses the OS language setting.
 
 file [rogue.save]
      The default file name for saving the game. If your
