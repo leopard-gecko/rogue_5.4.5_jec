@@ -4,7 +4,7 @@
 
 Rogueは、1980年頃に誕生した、文字や記号で描かれた迷宮を探索するコンピューターRPGです。プレイヤーは怪物と戦い、さまざまな道具を使いながら、迷宮の奥に隠された「イェンダーの魔除け」を探します。Rogue 5.4は、初代から改良を重ねてきたオリジナル版の最終バージョンです。
 
-**Rogue 5.4.5 JEC** は、Rogue 5.4.5のゲーム内容を基本的に引き継ぎながら、日本語・英語の切り替え、カラー表示、現代のOSへの対応などを加えた修正版です。
+**Rogue 5.4.5 JEC** は、Rogue 5.4.5のゲーム内容はそのままに、日本語・英語の切り替え、カラー表示、現代のOSへの対応などを加えた修正版です。
 
 *Rogue 5.4.5 JEC is a modified edition of Rogue 5.4.5. It preserves the original gameplay while adding Japanese/English language switching, color display, and support for modern operating systems.*
 
