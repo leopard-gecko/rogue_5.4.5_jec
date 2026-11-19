@@ -180,8 +180,6 @@ This produces `rogue-5.4.5jec.056-src.tar.gz` from the same source manifest used
 
 For the dungeon guides and other platform READMEs, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec).
 
-When copying a built EXE to another computer, check whether it requires runtime DLLs. For game controls and strategy, see the dungeon guide linked above.
-
 ## 7. Copyright and licenses
 
 See `LICENSE.TXT` for the original Rogue and pre-existing code licenses, JEC additions (including localization, features, and the Windows icon), and acknowledgment of Y.Oz Vox's Rogue 5.4.5p work.

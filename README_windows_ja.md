@@ -180,8 +180,6 @@ make dist.src
 
 案内書やほかのOS向けREADMEの一覧は、[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)をご覧ください。
 
-WindowsでEXEを他のPCにコピーする場合は、必要な実行時DLLの有無を確認してください。ゲームの遊び方は「【運命の洞窟】への案内書」を参照してください。
-
 ## 7. 著作権・ライセンス
 
 オリジナルRogueと既存のコードに関する著作権・ライセンス条件、JEC版での日本語化・機能追加・Windows用アイコンなどの独自の貢献、およびRogue 5.4.5pのY.Oz Voxさんへの謝辞は、すべて`LICENSE.TXT`に記載しています。
