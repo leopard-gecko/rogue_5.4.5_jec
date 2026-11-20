@@ -136,6 +136,8 @@ make FILEDIR='C:/Games/Rogue545'
 
 Normal `FILEDIR` paths are **not created automatically**. Create them first and ensure that the game can write to them, or run `make prepare-filedir FILEDIR='C:/Games/Rogue545'`.
 
+MSYS2 UCRT64 also accepts `make FILEDIR='~/Documents'`. Here, `~` means the MSYS2 home directory; the path is converted to a native Windows path.
+
 **Use the Windows Saved Games known folder (personal builds only):**
 
 ```sh
@@ -161,6 +163,22 @@ Relative paths are resolved from the game's working directory.
 
 ## 6. Distributed files and guides
 
+To create a Windows binary distribution ZIP, run the following in MSYS2 UCRT64:
+
+```sh
+make dist.win
+```
+
+By default, this creates `rogue_5.4_jec056_win.zip` containing a `Rogue 5.4` folder with `rogue.exe` (regular defaults), `rogue_original.exe` (original-style defaults), Japanese and English binary-distribution READMEs, the two HTML guides, and `LICENSE.TXT`. Both executables are rebuilt from clean objects and share the default filenames `rogue.save` and `rogue.scr`. Existing saved games and scores are not deleted. ZIP creation uses `bsdtar`, included in the standard MSYS2 base installation.
+
+To select a different executable name, specify `PROGRAM` (or `PROG`):
+
+```sh
+make dist.win PROGRAM=rogue54
+```
+
+This creates `rogue54_win.zip` with `rogue54.exe` and `rogue54_original.exe`, both using `rogue54.save` and `rogue54.scr`. The executable commands and default data filenames in the packaged READMEs and HTML guides are adjusted automatically. The document filenames and original files in the source tree are unchanged. Use ASCII letters, numbers, `_`, or `-` in the distribution program name.
+
 You can create the complete source-distribution archive from the MSYS2 UCRT64 shell:
 
 ```bash
@@ -177,10 +195,9 @@ This produces `rogue-5.4.5jec.056-src.tar.gz` from the same source manifest used
 | `Makefile` / `Makefile.win` | Source builds |
 | `windows/rogue.ico` / `windows/rogue-icon.rc` | Windows icon resources |
 | `windows/windows-saved-games.ps1` | Helper for the Windows Saved Games path |
+| `windows/README_ja.txt` / `windows/README_en.txt` | Japanese and English READMEs for Windows binary distribution |
 
 For the dungeon guides and other platform READMEs, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec).
-
-When copying a built EXE to another computer, check whether it requires runtime DLLs. For game controls and strategy, see the dungeon guide linked above.
 
 ## 7. Copyright and licenses
 

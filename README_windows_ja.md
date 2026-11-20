@@ -136,6 +136,8 @@ make FILEDIR='C:/Games/Rogue545'
 
 通常の `FILEDIR` 指定ではディレクトリは自動作成されません。**先に作成して書き込み権限を確保してください。** または `make prepare-filedir FILEDIR='C:/Games/Rogue545'` でも作成できます。
 
+MSYS2 UCRT64では `make FILEDIR='~/Documents'` も指定できます。この場合の `~` はMSYS2のホームディレクトリを指し、Windows側のパスに変換して使用します。
+
 **Windowsの「保存したゲーム」を利用する場合（個人用ビルド）：**
 
 ```sh
@@ -161,7 +163,23 @@ make original PROGRAM=rogue_original SAVEFILE=rogue.save SCOREFILE=rogue.scr
 
 ## 6. 配布ファイルと説明書
 
-MSYS2 UCRT64でも、ソース一式の配布用アーカイブを作成できます。
+Windowsバイナリ配布用ZIPを作成するには、MSYS2 UCRT64で次のコマンドを実行します。
+
+```sh
+make dist.win
+```
+
+通常は `rogue_5.4_jec056_win.zip` が作成されます。ZIP内の `Rogue 5.4` フォルダには通常版の `rogue.exe`、オリジナル設定版の `rogue_original.exe`、日英README、日英HTML案内書、`LICENSE.TXT` が収録されます。両実行ファイルはクリーンビルドされ、セーブ・スコアの既定ファイル名は共通の `rogue.save` / `rogue.scr` になります。既存のセーブ・スコアファイルは削除されません。ZIPの作成にはMSYS2標準の `bsdtar` を使用します。
+
+実行ファイル名を変更する場合は、次のように指定します（`PROG=rogue54` も使用可能）。
+
+```sh
+make dist.win PROGRAM=rogue54
+```
+
+この場合は `rogue54_win.zip` が作成され、通常版は `rogue54.exe`、オリジナル設定版は `rogue54_original.exe` になります。両方の既定ファイル名は `rogue54.save` と `rogue54.scr` です。ZIP内のREADMEとHTML案内書の**実行コマンドおよび既定の保存ファイル名**も自動的に変更されます。文書ファイル自体の名前やソース内の原本は変更されません。配布用の実行ファイル名には半角英数字・`_`・`-` を使用してください。
+
+ソース一式の配布用アーカイブは、次のコマンドで作成できます。
 
 ```bash
 make dist.src
@@ -177,10 +195,9 @@ make dist.src
 | `Makefile` / `Makefile.win` | ソースからのビルド |
 | `windows/rogue.ico` / `windows/rogue-icon.rc` | Windows版のアイコンリソース |
 | `windows/windows-saved-games.ps1` | 「保存したゲーム」保存先の取得・作成 |
+| `windows/README_ja.txt` / `windows/README_en.txt` | Windowsバイナリ配布版に同梱する日英README |
 
 案内書やほかのOS向けREADMEの一覧は、[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)をご覧ください。
-
-WindowsでEXEを他のPCにコピーする場合は、必要な実行時DLLの有無を確認してください。ゲームの遊び方は「【運命の洞窟】への案内書」を参照してください。
 
 ## 7. 著作権・ライセンス
 
