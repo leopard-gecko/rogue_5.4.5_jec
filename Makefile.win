@@ -6,6 +6,8 @@
 #   make PROGRAM=jrogue DEFAULT_LANGUAGE=1
 #   make wizard                     # Build with the MASTER wizard features
 #   make FILEDIR=saved-games        # Use the actual Saved Games known folder
+#   make dist.win                   # Build and package both Windows releases
+#   make dist.win PROGRAM=rogue54   # Rename the two EXEs and data files in the package
 # Direct use of 'mingw32-make -f Makefile.win' remains supported for the
 # standard build; FILEDIR=saved-games requires the MSYS2 UCRT64 shell.
 
@@ -30,7 +32,7 @@ FILEDIR ?=
 # current Windows user's *actual* Saved Games known-folder location, including
 # locations redirected by Windows.  The build-time path is embedded in the
 # executable; use the default (unset FILEDIR) for redistributable binaries.
-# Query only for builds/preparation, not for housekeeping or source packaging.
+# Query only for builds/preparation, not for housekeeping or packaging.
 # MSYS2's ~/ is a POSIX directory.  Native Windows EXEs need its Windows
 # absolute path, so convert the home directory with cygpath when requested.
 ifneq ($(filter ~ ~/%,$(FILEDIR) $(SAVEFILE) $(SCOREFILE)),)
@@ -41,7 +43,7 @@ endif
 endif
 expand_win_home = $(if $(filter ~,$(1)),$(WIN_HOME),$(patsubst ~/%,$(WIN_HOME)/%,$(1)))
 ifeq ($(strip $(FILEDIR)),saved-games)
-ifneq ($(filter-out clean dist.src,$(if $(strip $(MAKECMDGOALS)),$(MAKECMDGOALS),all)),)
+ifneq ($(filter-out clean dist.src dist.win,$(if $(strip $(MAKECMDGOALS)),$(MAKECMDGOALS),all)),)
 SAVED_GAMES_FILEDIR := $(shell powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./windows/windows-saved-games.ps1)
 ifeq ($(strip $(SAVED_GAMES_FILEDIR)),)
 $(error Cannot resolve the Windows Saved Games known folder; check PowerShell and windows-saved-games.ps1)
@@ -93,7 +95,7 @@ LDFLAGS ?=
 # Link only the VT variant of PDCursesMod.
 LDLIBS := -lpdcurses_vt -lwinmm -luser32 -lgdi32 -lcomdlg32 -lshell32 -lshlwapi -ladvapi32
 
-.PHONY: all clean japanese english original master wizard prepare-filedir dist.src
+.PHONY: all clean japanese english original master wizard prepare-filedir dist.src dist.win
 all: $(PROGRAM).exe
 
 # Do not create anything during 'make clean', or in the default build.
@@ -155,3 +157,67 @@ wizard: master
 # MSYS2 provides the necessary sh, cp, mktemp, tar, gzip, and chmod tools.
 dist.src:
 	$(MAKE) -f Makefile ROGUE_BUILD=unix dist.src
+
+# Redistributable Windows package.  Build both variants from clean objects
+# with known defaults, irrespective of previous build options or FILEDIR.
+# PROGRAM (or PROG) controls both EXE names, the shared save/score names,
+# and the archive name; the regular "rogue" name retains the release name.
+# Do not edit the source documents: substitute executable/data filenames only
+# in the staged binary README and HTML guide copies.  MSYS2 supplies awk,
+# sed and bsdtar; no additional packaging scripts are needed.
+WIN_DIST_PROGRAM := $(PROGRAM)
+WIN_DIST_ORIGINAL := $(WIN_DIST_PROGRAM)_original
+WIN_DIST_SAVEFILE := $(WIN_DIST_PROGRAM).save
+WIN_DIST_SCOREFILE := $(WIN_DIST_PROGRAM).scr
+WIN_DIST_ZIP := $(if $(filter rogue,$(WIN_DIST_PROGRAM)),rogue_5.4_jec056_win.zip,$(WIN_DIST_PROGRAM)_win.zip)
+WIN_DIST_DIR := Rogue 5.4
+
+dist.win:
+	@case "$(WIN_DIST_PROGRAM)" in \
+	  ''|*[!A-Za-z0-9_-]*) \
+	    echo "PROGRAM for dist.win must be a simple name using A-Z, a-z, 0-9, _ or -." >&2; exit 1 ;; \
+	esac
+	@if [ "$(MSYSTEM)" != "UCRT64" ]; then \
+	  echo "make dist.win requires the MSYS2 UCRT64 shell." >&2; exit 1; \
+	fi
+	@command -v bsdtar >/dev/null 2>&1 || { \
+	  echo "make dist.win requires bsdtar (included in MSYS2 base)." >&2; exit 1; \
+	}
+	$(MAKE) -f Makefile.win clean PROGRAM=$(WIN_DIST_PROGRAM) FILEDIR= MASTER=0
+	$(MAKE) -f Makefile.win all PROGRAM=$(WIN_DIST_PROGRAM) FILEDIR= \
+	  SAVEFILE=$(WIN_DIST_SAVEFILE) SCOREFILE=$(WIN_DIST_SCOREFILE) MASTER=0 \
+	  DEFAULT_LANGUAGE=0 DEFAULT_OPTION_CPPFLAGS=-DMODERN_ROGUE_OPTIONS
+	$(MAKE) -f Makefile.win clean PROGRAM=$(WIN_DIST_ORIGINAL) FILEDIR= MASTER=0
+	$(MAKE) -f Makefile.win all PROGRAM=$(WIN_DIST_ORIGINAL) FILEDIR= \
+	  SAVEFILE=$(WIN_DIST_SAVEFILE) SCOREFILE=$(WIN_DIST_SCOREFILE) MASTER=0 \
+	  DEFAULT_LANGUAGE=2 DEFAULT_OPTION_CPPFLAGS=
+	@set -eu; \
+	  stage=$$(mktemp -d); \
+	  trap 'rm -rf "$$stage"' EXIT HUP INT TERM; \
+	  dest="$$stage/$(WIN_DIST_DIR)"; \
+	  mkdir -p "$$dest"; \
+	  cp $(WIN_DIST_PROGRAM).exe $(WIN_DIST_ORIGINAL).exe LICENSE.TXT "$$dest/"; \
+	  for lang in ja en; do \
+	    awk -v normal='$(WIN_DIST_PROGRAM).exe' \
+	        -v original='$(WIN_DIST_ORIGINAL).exe' ' \
+	      /^  rogue\.exe +/ { sub(/^  rogue\.exe +/, sprintf("  %-22s", normal)); } \
+	      /^  rogue_original\.exe +/ { sub(/^  rogue_original\.exe +/, sprintf("  %-22s", original)); } \
+	      { print; }' "windows/README_$$lang.txt" | \
+	    sed -e 's/rogue_original\.exe/$(WIN_DIST_ORIGINAL).exe/g' \
+	        -e 's/rogue\.exe/$(WIN_DIST_PROGRAM).exe/g' \
+	        -e 's/rogue\.save/$(WIN_DIST_SAVEFILE)/g' \
+	        -e 's/rogue\.scr/$(WIN_DIST_SCOREFILE)/g' \
+	        > "$$dest/README_$$lang.txt"; \
+	  done; \
+	  sed -e 's@<pre class="prompt">rogue @<pre class="prompt">$(WIN_DIST_PROGRAM).exe @g' \
+	      -e 's/rogue\.save/$(WIN_DIST_SAVEFILE)/g' \
+	      rogue_ja.html > "$$dest/rogue_ja.html"; \
+	  sed -e 's@% rogue save_file / % jrogue save_file@% $(WIN_DIST_PROGRAM).exe save_file / % $(WIN_DIST_ORIGINAL).exe save_file@g' \
+	      -e 's@% rogue -r@% $(WIN_DIST_PROGRAM).exe -r@g' \
+	      -e 's@% rogue -s@% $(WIN_DIST_PROGRAM).exe -s@g' \
+	      -e 's/rogue\.save/$(WIN_DIST_SAVEFILE)/g' \
+	      rogue_en.html > "$$dest/rogue_en.html"; \
+	  (cd "$$stage" && bsdtar -a -cf release.zip "$(WIN_DIST_DIR)"); \
+	  mv -f "$$stage/release.zip" "$(WIN_DIST_ZIP)"; \
+	  printf 'Created Windows binary archive: %s/%s\n' "$(CURDIR)" "$(WIN_DIST_ZIP)"
+	@rm -f $(OBJS) $(ICON_OBJ)
