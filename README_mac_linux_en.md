@@ -113,6 +113,8 @@ sudo make install
 
 The game must be able to write to the data directory, so this example creates it first as the regular user. `make install` can create a missing `--file-dir` directory, but a directory created under `sudo` may not be writable by the player. `make clean` does not delete existing save or score files.
 
+You can also specify `--file-dir='~/Documents'`. A leading `~` expands to the home directory when configuring; direct `make FILEDIR='~/Documents'` builds are supported too.
+
 You can choose individual filenames with `./configure --save-file=FILE` and `--score-file=FILE`. Without `configure`, build-time variables include `PROGRAM=NAME` (or `PROG=NAME`) and `FILEDIR=DIR`. Individually specified filenames override `FILEDIR`. Rebuild after changing these settings.
 
 ## 6. Files and distribution

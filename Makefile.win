@@ -31,6 +31,15 @@ FILEDIR ?=
 # locations redirected by Windows.  The build-time path is embedded in the
 # executable; use the default (unset FILEDIR) for redistributable binaries.
 # Query only for builds/preparation, not for housekeeping or source packaging.
+# MSYS2's ~/ is a POSIX directory.  Native Windows EXEs need its Windows
+# absolute path, so convert the home directory with cygpath when requested.
+ifneq ($(filter ~ ~/%,$(FILEDIR) $(SAVEFILE) $(SCOREFILE)),)
+WIN_HOME := $(shell cygpath -m "$(HOME)" 2>/dev/null)
+ifeq ($(strip $(WIN_HOME)),)
+$(error Cannot resolve ~; use MSYS2 UCRT64 with HOME and cygpath)
+endif
+endif
+expand_win_home = $(if $(filter ~,$(1)),$(WIN_HOME),$(patsubst ~/%,$(WIN_HOME)/%,$(1)))
 ifeq ($(strip $(FILEDIR)),saved-games)
 ifneq ($(filter-out clean dist.src,$(if $(strip $(MAKECMDGOALS)),$(MAKECMDGOALS),all)),)
 SAVED_GAMES_FILEDIR := $(shell powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./windows/windows-saved-games.ps1)
@@ -41,7 +50,7 @@ RESOLVED_FILEDIR := $(SAVED_GAMES_FILEDIR)
 AUTO_PREPARE_FILEDIR := 1
 endif
 else
-RESOLVED_FILEDIR := $(FILEDIR)
+RESOLVED_FILEDIR := $(call expand_win_home,$(FILEDIR))
 endif
 
 ifneq ($(strip $(RESOLVED_FILEDIR)),)
@@ -51,6 +60,9 @@ else
 SAVEFILE := $(PROGRAM).save
 SCOREFILE := $(PROGRAM).scr
 endif
+# Explicit command-line SAVEFILE/SCOREFILE values still take precedence.
+RESOLVED_SAVEFILE := $(call expand_win_home,$(SAVEFILE))
+RESOLVED_SCOREFILE := $(call expand_win_home,$(SCOREFILE))
 
 CFILES := jec/color.c jec/unicode_text.c vers.c extern.c armor.c chase.c command.c daemon.c daemons.c fight.c init.c io.c list.c jec/language.c mach_dep.c main.c mdport.c windows/rogue_windows.c windows/rogue_windows_console.c misc.c monsters.c move.c new_level.c options.c pack.c passages.c potions.c rings.c rip.c rooms.c save.c scrolls.c state.c sticks.c things.c weapons.c wizard.c xcrypt.c
 OBJS := $(CFILES:.c=.win.o)
@@ -63,8 +75,8 @@ USER_CPPFLAGS := $(CPPFLAGS)
 # apostrophes, '$', and other shell metacharacters stay literal.  The inner
 # double quotes are passed to the compiler to form C string literals.
 shell_quote = '$(subst ','"'"',$(1))'
-CPP_SAVEFILE := $(call shell_quote,"$(SAVEFILE)")
-CPP_SCOREFILE := $(call shell_quote,"$(SCOREFILE)")
+CPP_SAVEFILE := $(call shell_quote,"$(RESOLVED_SAVEFILE)")
+CPP_SCOREFILE := $(call shell_quote,"$(RESOLVED_SCOREFILE)")
 # MSYS2 PDCursesMod installs curses.h in <prefix>/include/pdcurses.
 override CPPFLAGS := -DHAVE_CONFIG_H $(DEFAULT_OPTION_CPPFLAGS) \
                      -DPDC_WIDE=1 -DPDC_FORCE_UTF8=1 \

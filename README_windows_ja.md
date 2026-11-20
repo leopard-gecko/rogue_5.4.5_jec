@@ -136,6 +136,8 @@ make FILEDIR='C:/Games/Rogue545'
 
 通常の `FILEDIR` 指定ではディレクトリは自動作成されません。**先に作成して書き込み権限を確保してください。** または `make prepare-filedir FILEDIR='C:/Games/Rogue545'` でも作成できます。
 
+MSYS2 UCRT64では `make FILEDIR='~/Documents'` も指定できます。この場合の `~` はMSYS2のホームディレクトリを指し、Windows側のパスに変換して使用します。
+
 **Windowsの「保存したゲーム」を利用する場合（個人用ビルド）：**
 
 ```sh

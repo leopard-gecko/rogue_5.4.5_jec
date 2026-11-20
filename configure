@@ -49,7 +49,7 @@ Options:
   --ja-man6dirs=DIRS             Space-separated Japanese manual dirs; overrides --ja-man-style
   --docdir=DIR                   Documentation directory [$(datarootdir)/doc/$(PROGRAM)]
   --program=NAME                 Program name [rogue]
-  --file-dir=DIR                Directory for save and score files
+  --file-dir=DIR                Directory for save and score files (~/ expands to HOME)
   --save-file=FILE              Default save file [$(PROGRAM).save or $(FILEDIR)/$(PROGRAM).save]
   --score-file=FILE             Default score file [$(PROGRAM).scr or $(FILEDIR)/$(PROGRAM).scr]
   --wizard                       Enable wizard mode
@@ -121,6 +121,33 @@ if [ -z "$ja_man6dirs" ]; then
         none)  ja_man6dirs= ;;
     esac
 fi
+
+# The shell does not expand a tilde in --option=~/path, and quoting
+# '~/path' intentionally prevents expansion.  Resolve only a leading ~
+# here, before writing the build-time paths to config.mk.
+expand_home_path() {
+    case "$1" in
+        '~'|'~/'*)
+            if [ -z "${HOME:-}" ]; then
+                echo 'configure: error: HOME is required for paths beginning with ~' >&2
+                return 1
+            fi
+            case "$HOME" in
+                /*) ;;
+                *) echo 'configure: error: HOME must be an absolute directory' >&2; return 1 ;;
+            esac
+            case "$1" in
+                '~') printf '%s\n' "$HOME" ;;
+                '~/'*) printf '%s/%s\n' "${HOME%/}" "${1#\~/}" ;;
+            esac
+            ;;
+        *) printf '%s\n' "$1" ;;
+    esac
+}
+
+filedir=$(expand_home_path "$filedir") || exit 1
+savefile=$(expand_home_path "$savefile") || exit 1
+scorefile=$(expand_home_path "$scorefile") || exit 1
 
 case "$program" in
     ''|*[!/A-Za-z0-9_.-]*|[-.]*)

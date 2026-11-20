@@ -136,6 +136,8 @@ make FILEDIR='C:/Games/Rogue545'
 
 Normal `FILEDIR` paths are **not created automatically**. Create them first and ensure that the game can write to them, or run `make prepare-filedir FILEDIR='C:/Games/Rogue545'`.
 
+MSYS2 UCRT64 also accepts `make FILEDIR='~/Documents'`. Here, `~` means the MSYS2 home directory; the path is converted to a native Windows path.
+
 **Use the Windows Saved Games known folder (personal builds only):**
 
 ```sh

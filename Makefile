@@ -47,13 +47,26 @@ PROG ?=
 PROGRAM ?= $(if $(PROG),$(PROG),rogue)
 FILEDIR ?=
 
-ifneq ($(strip $(FILEDIR)),)
-SAVEFILE ?= $(FILEDIR)/$(PROGRAM).save
-SCOREFILE ?= $(FILEDIR)/$(PROGRAM).scr
+# GNU make does not expand a leading ~ in a variable value.  Resolve it
+# for direct make FILEDIR=~/... and explicit SAVEFILE/SCOREFILE overrides.
+# configure already stores expanded paths, so these are complementary.
+ifneq ($(filter ~ ~/%,$(FILEDIR) $(SAVEFILE) $(SCOREFILE)),)
+ifeq ($(strip $(HOME)),)
+$(error HOME is required for paths beginning with ~)
+endif
+endif
+expand_home = $(if $(filter ~,$(1)),$(HOME),$(patsubst ~/%,$(HOME)/%,$(1)))
+RESOLVED_FILEDIR := $(call expand_home,$(FILEDIR))
+
+ifneq ($(strip $(RESOLVED_FILEDIR)),)
+SAVEFILE ?= $(RESOLVED_FILEDIR)/$(PROGRAM).save
+SCOREFILE ?= $(RESOLVED_FILEDIR)/$(PROGRAM).scr
 else
 SAVEFILE ?= $(PROGRAM).save
 SCOREFILE ?= $(PROGRAM).scr
 endif
+RESOLVED_SAVEFILE := $(call expand_home,$(SAVEFILE))
+RESOLVED_SCOREFILE := $(call expand_home,$(SCOREFILE))
 MANPAGE_EN ?= build/man/en/$(PROGRAM).6
 MANPAGE_JA ?= build/man/ja/$(PROGRAM).6
 MANPAGES = $(MANPAGE_EN) $(MANPAGE_JA)
@@ -101,9 +114,15 @@ RM ?= rm -f
 # Keep the built-in flags even when the user passes CPPFLAGS on the
 # command line.  Use EXTRA_CPPFLAGS for local additions such as -DMASTER.
 USER_CPPFLAGS := $(CPPFLAGS)
+# Quote the complete -D argument, including paths with spaces in HOME.
+shell_quote = '$(subst ','"'"',$(1))'
+# Escape sed replacement metacharacters before quoting the whole expression.
+sed_replacement = $(subst |,\|,$(subst &,\&,$(subst \,\\,$(1))))
+CPP_SAVEFILE := $(call shell_quote,"$(RESOLVED_SAVEFILE)")
+CPP_SCOREFILE := $(call shell_quote,"$(RESOLVED_SCOREFILE)")
 override CPPFLAGS := -DHAVE_CONFIG_H \
-                     -DDEFAULT_SAVEFILE=\"$(SAVEFILE)\" \
-                     -DSCOREFILE=\"$(SCOREFILE)\" \
+                     -DDEFAULT_SAVEFILE=$(CPP_SAVEFILE) \
+                     -DSCOREFILE=$(CPP_SCOREFILE) \
                      $(DEFAULT_OPTION_CPPFLAGS) \
                      $(LANGUAGE_CPPFLAGS) \
                      -I. $(CURSES_CFLAGS) $(USER_CPPFLAGS) $(EXTRA_CPPFLAGS)
@@ -196,16 +215,16 @@ $(PROGRAM): $(HDRS) $(OBJS)
 
 $(MANPAGE_EN): $(MANPAGE_EN_TEMPLATE)
 	$(MKDIR) $(dir $@)
-	sed -e 's|@PROGRAM@|$(PROGRAM)|g' \
-	    -e 's|@SAVEFILE@|$(SAVEFILE)|g' \
-	    -e 's|@SCOREFILE@|$(SCOREFILE)|g' \
+	sed -e $(call shell_quote,s|@PROGRAM@|$(PROGRAM)|g) \
+	    -e $(call shell_quote,s|@SAVEFILE@|$(call sed_replacement,$(RESOLVED_SAVEFILE))|g) \
+	    -e $(call shell_quote,s|@SCOREFILE@|$(call sed_replacement,$(RESOLVED_SCOREFILE))|g) \
 	    $(MANPAGE_EN_TEMPLATE) > $@
 
 $(MANPAGE_JA): $(MANPAGE_JA_TEMPLATE)
 	$(MKDIR) $(dir $@)
-	sed -e 's|@PROGRAM@|$(PROGRAM)|g' \
-	    -e 's|@SAVEFILE@|$(SAVEFILE)|g' \
-	    -e 's|@SCOREFILE@|$(SCOREFILE)|g' \
+	sed -e $(call shell_quote,s|@PROGRAM@|$(PROGRAM)|g) \
+	    -e $(call shell_quote,s|@SAVEFILE@|$(call sed_replacement,$(RESOLVED_SAVEFILE))|g) \
+	    -e $(call shell_quote,s|@SCOREFILE@|$(call sed_replacement,$(RESOLVED_SCOREFILE))|g) \
 	    $(MANPAGE_JA_TEMPLATE) > $@
     
 # Game data (save and score files) must survive clean/distclean.
@@ -252,8 +271,8 @@ install: $(PROGRAM) $(MANPAGES)
 	$(MKDIR) $(DESTDIR)$(bindir)
 	$(MKDIR) $(DESTDIR)$(man6dir)
 	$(MKDIR) $(DESTDIR)$(docdir)
-ifneq ($(strip $(FILEDIR)),)
-	$(MKDIR) $(DESTDIR)$(FILEDIR)
+ifneq ($(strip $(RESOLVED_FILEDIR)),)
+	$(MKDIR) "$(DESTDIR)$(RESOLVED_FILEDIR)"
 endif
 	$(INSTALL) -m 0755 $(PROGRAM) $(DESTDIR)$(bindir)/$(PROGRAM)
 	$(INSTALL) -m 0644 $(MANPAGE_EN) $(DESTDIR)$(man6dir)/$(PROGRAM).6

@@ -113,6 +113,8 @@ sudo make install
 
 保存先はゲームを実行するユーザーが書き込める必要があるため、この例では先に `mkdir -p` で作成しています。`--file-dir` で指定したディレクトリは `make install` の際に必要に応じて作成されますが、`sudo` で新規作成すると書き込み権限に注意が必要です。なお、`make clean` は既存のセーブ・スコアファイルを削除しません。
 
+`--file-dir='~/Documents'` のような指定も可能です。先頭の `~` は設定時のホームディレクトリに展開されます。`make FILEDIR='~/Documents'` と直接指定した場合も同様です。
+
 個別の保存ファイル名は `./configure --save-file=FILE`、`--score-file=FILE` で指定できます。`configure` を使わず、`make PROGRAM=NAME FILEDIR=DIR`（または `PROG=NAME`）などで指定する方法もあります。個別指定は `FILEDIR` より優先されます。設定変更後は再ビルドしてください。
 
 ## 6. ファイルの説明と配布
