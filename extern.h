@@ -155,6 +155,8 @@ extern int	_COLS, _LINES;
 
 void	jrogue_show_cursor(int show);
 void	jrogue_restore_cursor(void);
+int	jrogue_refresh_window(WINDOW *win);
+int	jrogue_endwin(void);
 
 /*
  * Function types

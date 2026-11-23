@@ -462,7 +462,7 @@ def:
 		mvaddch_projectile(pos.y, pos.x, dirch, beam_pair);
 		msleep(50);
 		jrogue_restore_cursor();
-		refresh();
+		jrogue_refresh_window(stdscr);
 	}
     }
     for (i = 0; i < saved_count; i++)

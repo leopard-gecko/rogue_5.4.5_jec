@@ -378,7 +378,7 @@ save_file(FILE *savef)
     mvcur(0, _COLS - 1, _LINES - 1, 0); 
     putchar('\n');
     restore_terminal_background();
-    endwin();
+    jrogue_endwin();
     resetltchars();
     md_chmod(file_name, 0400);
 
@@ -539,7 +539,7 @@ restore(const char *file)
     if (LINES < NUMLINES || COLS < NUMCOLS)
     {
         restore_terminal_background();
-        endwin();
+        jrogue_endwin();
         printf(JSTR("\nごめん！ 画面の大きさは最低 %dx%d なんだ。\n",
                     "\nSorry, the screen must be at least %dx%d.\n"),
                NUMLINES, NUMCOLS);
@@ -565,7 +565,7 @@ restore(const char *file)
     if ((err = rs_restore_file(inf)) != 0)
     {
 	restore_terminal_background();
-	endwin();
+	jrogue_endwin();
 	fclose(inf);
 	printf("%s: %s\n",
 	    JSTR("セーブファイルが壊れているか、最後まで読み込めません",
@@ -585,7 +585,7 @@ restore(const char *file)
         md_unlink_open_file(file, inf) < 0)
     {
 	restore_terminal_background();
-	endwin();
+	jrogue_endwin();
 	printf("Cannot unlink file\n");
 	return FALSE;
     }
@@ -601,7 +601,7 @@ restore(const char *file)
 	if (sbuf2.st_nlink != 1 || syml)
 	{
 	    restore_terminal_background();
-	    endwin();
+	    jrogue_endwin();
 	    printf("%s", JSTR("\nそのファイルから再開することはできません。\n", "\nCannot restore from a linked file\n"));
 #ifndef _WIN32
 	    fclose(inf);
@@ -612,7 +612,7 @@ restore(const char *file)
     if (pstats.s_hpt <= 0)
     {
 	restore_terminal_background();
-	endwin();
+	jrogue_endwin();
 	printf("%s", JSTR("\n\"彼は死んだんだよ、ジム。\"\n", "\n\"He's dead, Jim\"\n"));
 #ifndef _WIN32
 	fclose(inf);

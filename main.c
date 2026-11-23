@@ -162,7 +162,7 @@ main(int argc, char **argv)
              * position of its last two lines. */
             if (LINES < NUMLINES || COLS < NUMCOLS)
             {
-                endwin();
+                jrogue_endwin();
                 printf(JSTR("\nごめん！ 画面の大きさは最低 %dx%d なんだ。\n",
                             "\nSorry, the screen must be at least %dx%d.\n"),
                        NUMLINES, NUMCOLS);
@@ -247,7 +247,7 @@ main(int argc, char **argv)
      */
     if (LINES < NUMLINES || COLS < NUMCOLS)
     {
-	endwin();
+	jrogue_endwin();
 	printf(JSTR("\nごめん！ 画面の大きさは最低 %dx%d なんだ。\n", "\nSorry, the screen must be at least %dx%d.\n"), NUMLINES, NUMCOLS);
 	my_exit(1);
     }
@@ -317,7 +317,7 @@ fatal(const char *s)
 {
     mvaddstr(_LINES - 2, 0, s);
     refresh();
-    endwin();
+    jrogue_endwin();
     my_exit(0);
 }
 
@@ -335,7 +335,7 @@ fatal_error(const char *s)
 {
     /* These failures occur during a running game with curses initialized. */
     if (!isendwin())
-        endwin();
+        jrogue_endwin();
     restore_terminal_background();
     resetltchars();
 
@@ -411,7 +411,7 @@ tstp(int ignored)
      */
     getyx(curscr, oy, ox);
     mvcur(0, _COLS - 1, _LINES - 1, 0);
-    endwin();
+    jrogue_endwin();
     resetltchars();
     fflush(stdout);
 	md_tstpsignal();
@@ -562,7 +562,7 @@ leave(int sig)
     if (!isendwin())
     {
 	mvcur(0, _COLS - 1, _LINES - 1, 0);
-	endwin();
+	jrogue_endwin();
     }
 
     putchar('\n');
@@ -582,7 +582,7 @@ shell(void)
      */
     move(_LINES-1, 0);
     refresh();
-    endwin();
+    jrogue_endwin();
     /* Restore terminal colors for the external shell without changing
      * curses' saved game screen (including its status line). */
     jrogue_shell_suspend_colors();

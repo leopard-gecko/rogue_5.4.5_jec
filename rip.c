@@ -381,7 +381,7 @@ score(int amount, int flags, int monst)
         jrogue_prepare_input_attr(stdscr);
         refresh();
         wgetnstr(stdscr,prbuf,80);
- 	endwin();
+ 	jrogue_endwin();
         resetltchars();
 	/*
 	 * free up space to "guarantee" there is space for the top_ten

@@ -82,7 +82,7 @@ command(void)
 	if (!((running || count) && jump))
 	{
 	    jrogue_restore_cursor();
-	    refresh();			/* Draw screen */
+	    jrogue_refresh_window(stdscr);	/* Draw screen without cursor flicker */
 	}
 	take = 0;
 	after = TRUE;

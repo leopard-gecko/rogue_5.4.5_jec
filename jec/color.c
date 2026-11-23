@@ -159,7 +159,10 @@ jrogue_prepare_input_attr(WINDOW *wn)
 {
     if (wn != NULL) {
 	jrogue_wset_normal_attr(wn);
-	wrefresh(wn);
+	/* Use the common refresh path even before input: on Windows it
+	 * restores the terminal cursor shape after curses redraws; on Unix
+	 * it remains an ordinary wrefresh(). */
+	jrogue_refresh_window(wn);
     }
     if (color_mode_applied != FALSE) {
 	write_ansi("\033]10;#c0c0c0\007");

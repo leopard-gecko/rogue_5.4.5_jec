@@ -9,6 +9,15 @@
 /* Before initscr(): enable VT true color and resize direct launches.
  * Shared launch classification is declared in rogue_windows.h. */
 void jrogue_enable_vt_truecolor(void);
+
+/* PDCursesMod uses curs_set(1) for an underline and endwin() may force
+ * a block.  Track visibility through curses, but restore the terminal's
+ * default cursor shape (DECSCUSR 0) after drawing and on shell exit. */
+void jrogue_windows_set_cursor_visible(int show);
+void jrogue_windows_restore_terminal_cursor(void);
+/* As in 3.6 JEC, hide the physical cursor only while refreshing the screen;
+ * never change PDCurses' internal visibility state during a redraw. */
+int jrogue_windows_refresh_window(WINDOW *win);
 void jrogue_windows_resize_direct_launch(void);
 void jrogue_windows_retry_direct_launch_resize(int restoring);
 
