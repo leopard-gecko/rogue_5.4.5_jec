@@ -630,13 +630,19 @@ death(int monst)
 	    attrset(COLOR_PAIR(43) | A_NORMAL);
 	while (*dp)
 	    addstr(*dp++);	
-	if (color_mode == TRUE){
-	    jrogue_set_normal_attr();
-if (jrogue_lang_is_japanese)
+        if (color_mode == TRUE)
+            jrogue_set_normal_attr();
+
+        /* English has no epitaph text in rip[]: draw it in both modes.
+         * Japanese text is already included in the non-color outline. */
+        if (jrogue_lang_is_japanese)
         {
-            grave_text(11, "安らかに");
-            grave_text(12, "眠れ");
-            grave_text(17, "により死す");
+            if (color_mode == TRUE)
+            {
+                grave_text(11, "安らかに");
+                grave_text(12, "眠れ");
+                grave_text(17, "により死す");
+            }
         }
         else
         {
@@ -644,21 +650,22 @@ if (jrogue_lang_is_japanese)
             grave_text(11, "IN");
             grave_text(12, "PEACE");
         }
-        attrset(COLOR_PAIR(3) | A_NORMAL);
-        mvaddstr(19, 17, "*");
-        mvaddstr(19, 24, "*");
-        mvaddstr(19, 27, "*");
-        mvaddstr(19, 30, "*");
-        mvaddstr(19, 39, "*");
-        attrset(COLOR_PAIR(2) | A_NORMAL);
-        mvaddstr(20, 9, "________)/\\\\_//(\\/(/\\)/\\//\\/");
-        mvaddstr(20, 38, "_)_______");
-        jrogue_set_normal_attr();
+
+        if (color_mode == TRUE)
+        {
+            attrset(COLOR_PAIR(3) | A_NORMAL);
+            mvaddstr(19, 17, "*");
+            mvaddstr(19, 24, "*");
+            mvaddstr(19, 27, "*");
+            mvaddstr(19, 30, "*");
+            mvaddstr(19, 39, "*");
+            attrset(COLOR_PAIR(2) | A_NORMAL);
+            mvaddstr(20, 9, "________)/\\\\_//(\\/(/\\)/\\//\\/");
+            mvaddstr(20, 38, "_)_______");
+            jrogue_set_normal_attr();
         }
-    if (color_mode == TRUE)
-	    jrogue_set_normal_attr();
-if (jrogue_lang_is_japanese)
-        grave_text(16, killer);
+        if (jrogue_lang_is_japanese)
+            grave_text(16, killer);
     else
         {
             /* Use the original vowelstr() rule for English articles.

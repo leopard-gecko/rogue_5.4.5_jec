@@ -97,7 +97,7 @@ SUCH DAMAGE.
 ROGUE 5.4.5 JEC: ADDITIONAL CONTRIBUTIONS AND ACKNOWLEDGMENTS
 ====================================================================
 
-Rogue 5.4.5 JEC 056
+Rogue 5.4.5 JEC 057
 Additional Contributions, Licensing, and Acknowledgments
 =====================================================
 
@@ -142,7 +142,7 @@ associated with them.
 
 ---------------------------------------------------------------------
 
-Rogue 5.4.5 JEC 056
+Rogue 5.4.5 JEC 057
 追加・変更部分のライセンスと謝辞
 ==============================
 

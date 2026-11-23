@@ -169,7 +169,7 @@ WIN_DIST_PROGRAM := $(PROGRAM)
 WIN_DIST_ORIGINAL := $(WIN_DIST_PROGRAM)_original
 WIN_DIST_SAVEFILE := $(WIN_DIST_PROGRAM).save
 WIN_DIST_SCOREFILE := $(WIN_DIST_PROGRAM).scr
-WIN_DIST_ZIP := $(if $(filter rogue,$(WIN_DIST_PROGRAM)),rogue_5.4_jec056_win.zip,$(WIN_DIST_PROGRAM)_win.zip)
+WIN_DIST_ZIP := $(if $(filter rogue,$(WIN_DIST_PROGRAM)),rogue_5.4_jec057_win.zip,$(WIN_DIST_PROGRAM)_win.zip)
 WIN_DIST_DIR := Rogue 5.4
 
 dist.win:

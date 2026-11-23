@@ -1,4 +1,4 @@
-# Rogue 5.4.5 JEC 056 — macOS / Linux（日本語）
+# Rogue 5.4.5 JEC 057 — macOS / Linux（日本語）
 
 この文書では、**macOS、Linux、Raspberry Pi OS** でのビルド、起動、インストール、セーブ・スコアの保存先について説明します。ゲームの紹介と各OS向け文書の一覧は[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)、操作方法やアイテムの説明は[「【運命の洞窟】への案内書」](https://leopard-gecko.github.io/jrogue/guide.html?version=54)をご覧ください。
 
@@ -130,7 +130,7 @@ sudo make install
 
 案内書やほかのOS向けREADMEの一覧は、[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)をご覧ください。
 
-`make dist.src` でソースアーカイブを生成できます（通常は `rogue-5.4.5jec.056-src.tar.gz`）。
+`make dist.src` でソースアーカイブを生成できます（通常は `rogue-5.4.5jec.057-src.tar.gz`）。
 
 ## 7. 著作権・ライセンス
 

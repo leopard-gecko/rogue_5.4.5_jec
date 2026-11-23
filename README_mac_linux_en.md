@@ -1,4 +1,4 @@
-# Rogue 5.4.5 JEC 056 — macOS / Linux (English)
+# Rogue 5.4.5 JEC 057 — macOS / Linux (English)
 
 This document explains how to build, run, and install Rogue 5.4.5 JEC on **macOS, Linux, and Raspberry Pi OS**, including save and score file locations. For an introduction and links to all platform guides, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec). For gameplay, commands, and items, see [A Guide to the Dungeons of Doom](https://leopard-gecko.github.io/jrogue/guide.html?version=54).
 
@@ -130,7 +130,7 @@ You can choose individual filenames with `./configure --save-file=FILE` and `--s
 
 For the dungeon guides and other platform READMEs, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec).
 
-Use `make dist.src` to create a source archive (normally `rogue-5.4.5jec.056-src.tar.gz`).
+Use `make dist.src` to create a source archive (normally `rogue-5.4.5jec.057-src.tar.gz`).
 
 ## 7. Copyright and licenses
 

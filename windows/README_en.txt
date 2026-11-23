@@ -1,4 +1,4 @@
-Rogue 5.4.5jec.056  Windows Edition
+Rogue 5.4.5jec.057  Windows Edition
 ======================================
 
 Rogue is a computer role-playing game that originated around 1980. You
@@ -11,7 +11,7 @@ With dungeons that change each time you play, a variety of items whose
 effects you discover and learn to use, and tense adventures where every
 decision can change your fate, it remains compelling even today.
 
-This package contains Rogue 5.4.5jec.056 for Windows 10 / 11 (64-bit).
+This package contains Rogue 5.4.5jec.057 for Windows 10 / 11 (64-bit).
 It preserves the gameplay of Rogue 5.4 while adding Japanese/English
 language switching, Japanese and emoji input, color display, animation
 delays, and compatibility with modern operating systems. The color display

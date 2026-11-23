@@ -1,4 +1,4 @@
-# Rogue 5.4.5 JEC 056 — Windows (English)
+# Rogue 5.4.5 JEC 057 — Windows (English)
 
 This document explains how to build and run Rogue 5.4.5 JEC on **Windows 10 / 11**, including environment variables and save and score file locations. For an introduction and links to all platform guides, see the [repository README](https://github.com/leopard-gecko/rogue_5.4.5_jec). For gameplay, commands, and items, see [A Guide to the Dungeons of Doom](https://leopard-gecko.github.io/jrogue/guide.html?version=54).
 
@@ -169,7 +169,7 @@ To create a Windows binary distribution ZIP, run the following in MSYS2 UCRT64:
 make dist.win
 ```
 
-By default, this creates `rogue_5.4_jec056_win.zip` containing a `Rogue 5.4` folder with `rogue.exe` (regular defaults), `rogue_original.exe` (original-style defaults), Japanese and English binary-distribution READMEs, the two HTML guides, and `LICENSE.TXT`. Both executables are rebuilt from clean objects and share the default filenames `rogue.save` and `rogue.scr`. Existing saved games and scores are not deleted. ZIP creation uses `bsdtar`, included in the standard MSYS2 base installation.
+By default, this creates `rogue_5.4_jec057_win.zip` containing a `Rogue 5.4` folder with `rogue.exe` (regular defaults), `rogue_original.exe` (original-style defaults), Japanese and English binary-distribution READMEs, the two HTML guides, and `LICENSE.TXT`. Both executables are rebuilt from clean objects and share the default filenames `rogue.save` and `rogue.scr`. Existing saved games and scores are not deleted. ZIP creation uses `bsdtar`, included in the standard MSYS2 base installation.
 
 To select a different executable name, specify `PROGRAM` (or `PROG`):
 
@@ -185,7 +185,7 @@ You can create the complete source-distribution archive from the MSYS2 UCRT64 sh
 make dist.src
 ```
 
-This produces `rogue-5.4.5jec.056-src.tar.gz` from the same source manifest used on macOS/Linux, including source files for all supported platforms.
+This produces `rogue-5.4.5jec.057-src.tar.gz` from the same source manifest used on macOS/Linux, including source files for all supported platforms.
 
 | File | Purpose |
 |---|---|

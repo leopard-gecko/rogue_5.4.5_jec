@@ -1,4 +1,4 @@
-# Rogue 5.4.5 JEC 056 — Windows（日本語）
+# Rogue 5.4.5 JEC 057 — Windows（日本語）
 
 この文書では、**Windows 10 / 11** 向けのビルド、起動、環境変数、セーブ・スコアの保存先について説明します。ゲームの紹介と各OS向け文書の一覧は[リポジトリのREADME](https://github.com/leopard-gecko/rogue_5.4.5_jec)、操作方法やアイテムの説明は[「【運命の洞窟】への案内書」](https://leopard-gecko.github.io/jrogue/guide.html?version=54)をご覧ください。
 
@@ -169,7 +169,7 @@ Windowsバイナリ配布用ZIPを作成するには、MSYS2 UCRT64で次のコ�
 make dist.win
 ```
 
-通常は `rogue_5.4_jec056_win.zip` が作成されます。ZIP内の `Rogue 5.4` フォルダには通常版の `rogue.exe`、オリジナル設定版の `rogue_original.exe`、日英README、日英HTML案内書、`LICENSE.TXT` が収録されます。両実行ファイルはクリーンビルドされ、セーブ・スコアの既定ファイル名は共通の `rogue.save` / `rogue.scr` になります。既存のセーブ・スコアファイルは削除されません。ZIPの作成にはMSYS2標準の `bsdtar` を使用します。
+通常は `rogue_5.4_jec057_win.zip` が作成されます。ZIP内の `Rogue 5.4` フォルダには通常版の `rogue.exe`、オリジナル設定版の `rogue_original.exe`、日英README、日英HTML案内書、`LICENSE.TXT` が収録されます。両実行ファイルはクリーンビルドされ、セーブ・スコアの既定ファイル名は共通の `rogue.save` / `rogue.scr` になります。既存のセーブ・スコアファイルは削除されません。ZIPの作成にはMSYS2標準の `bsdtar` を使用します。
 
 実行ファイル名を変更する場合は、次のように指定します（`PROG=rogue54` も使用可能）。
 
@@ -185,7 +185,7 @@ make dist.win PROGRAM=rogue54
 make dist.src
 ```
 
-`rogue-5.4.5jec.056-src.tar.gz` が作成されます。
+`rogue-5.4.5jec.057-src.tar.gz` が作成されます。
 
 | ファイル | 用途 |
 |---|---|
