@@ -2,11 +2,17 @@
 
 **Rogue 5.4.5 JEC 057**
 
-Rogueは、1980年頃に誕生した、文字や記号で描かれた迷宮を探索するコンピューターRPGです。プレイヤーは怪物と戦い、さまざまな道具を使いながら、迷宮の奥に隠された「イェンダーの魔除け」を探します。Rogue 5.4は、初代から改良を重ねてきたオリジナル版の最終バージョンです。
+Rogueは、1980年頃に誕生した、文字や記号で描かれた迷宮を探索するコンピューターRPGです。プレイヤーは怪物と戦い、さまざまな道具を使いながら、迷宮の奥に隠された「イェンダーの魔除け」を探します。１文字で表現されたキャラクターやアイテムが特徴で、いま遊んでも楽しめるものだと思います。いわゆる「ローグライクゲーム」の元祖になるものです。
 
-**Rogue 5.4.5 JEC** は、Rogue 5.4.5のゲーム内容はそのままに、日本語・英語の切り替え、カラー表示、現代のOSへの対応などを加えた修正版です。
+**Rogue 5.4**は、1985年にリリースされたRogueの最終バージョンです。
 
-*Rogue 5.4.5 JEC is a modified edition of Rogue 5.4.5. It preserves the original gameplay while adding Japanese/English language switching, color display, and support for modern operating systems.*
+ここで配布する**Rogue 5.4.5 JEC** は、Rogue 5.4.5のソースコードに日本語・英語の切り替え、カラー表示、現代のOSへの対応などを加えた修正版です。ゲームの内容はRogue 5.4そのものです。
+
+*Rogue is a computer role-playing game that originated around 1980. Players explore dungeons drawn with characters and symbols, fighting monsters and using various items in search of the Amulet of Yendor hidden deep within the dungeon. Its characters and items, each represented by a single character, are a distinctive feature, and I think the game is still enjoyable today. It is the original game behind what are now called “roguelikes.”*
+
+***Rogue 5.4*** *is the final version of Rogue, released in 1985.*
+
+*The **Rogue 5.4.5 JEC** distributed here is a modified version of the Rogue 5.4.5 source code, adding Japanese/English language switching, color display, support for modern operating systems, and other improvements. The gameplay itself is that of Rogue 5.4.*
 
 ## 対応環境とREADME / Platforms and documentation
 
