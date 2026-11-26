@@ -1,4 +1,3 @@
-
 name: Build Rogue 5.4.5 JEC
 
 on:
@@ -70,18 +69,21 @@ jobs:
             mingw-w64-ucrt-x86_64-binutils
             mingw-w64-ucrt-x86_64-pdcurses
 
-      - name: Build
+      # make dist.win builds both EXEs and packages the release documents.
+      - name: Build Windows distribution
         run: |
-          make
+          make dist.win
+          objdump -p rogue.exe | grep "DLL Name:" || true
+
+      # GitHub Actions artifacts are already ZIP files. Extract the generated
+      # ZIP before uploading, so users get the Rogue 5.4 folder in one unzip.
+      - name: Stage Windows distribution
+        run: |
           mkdir -p dist
-          cp rogue.exe dist/
-          make clean
-          make PROGRAM=rogue_original SAVEFILE=rogue.save SCOREFILE=rogue.scr original
-          cp rogue_original.exe dist/
-          objdump -p dist/rogue.exe | grep "DLL Name:" || true
+          bsdtar -xf rogue_5.4_jec057_win.zip -C dist
 
       - uses: actions/upload-artifact@v6
         with:
-          name: rogue-windows-x64
+          name: rogue_5.4_jec057_win
           path: dist/
-
+          if-no-files-found: error
